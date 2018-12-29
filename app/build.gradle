@@ -19,6 +19,19 @@ android {
 }
 
 dependencies {
+
+    def room_version = "2.1.0-alpha03"
+    def lifecycle_version = "2.0.0"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version" // use kapt for Kotlin
+
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
@@ -31,9 +44,16 @@ dependencies {
 
     implementation 'com.google.apis:google-api-services-vision:v1-rev357-1.22.0'
 
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
+    implementation 'com.evernote:android-job:1.2.4'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-alpha01'
 }
+
+apply plugin: 'com.google.gms.google-services'

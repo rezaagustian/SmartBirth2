@@ -10,9 +10,16 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_NAME = "smartbirthsharedpref";
     private static final String KEY_NIK = "keynik";
     private static final String KEY_NAMA = "keynama";
+    private static final String KEY_DUSUN = "keydusun";
+    private static final String KEY_TL = "keytl";
     private static final String KEY_LAT = "keylat";
     private static final String KEY_LONG = "keylong";
+    private static final String KEY_ZOOM = "keyZoom";
+    private static final String KEY_ALAMAT = "keyalamat";
+    private static final String KEY_TELP = "keytelp";
 
+    private static final String KEY_LANGKAH = "keylangkah";
+    private static final String KEY_TANGGAL = "keytanggal";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -35,7 +42,21 @@ public class SharedPrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_NIK, user.getNik());
         editor.putString(KEY_NAMA, user.getNama());
+        editor.putString(KEY_DUSUN, user.getDusun());
+        editor.putString(KEY_TL, user.getTL());
+        editor.putString(KEY_ALAMAT, user.getAlamat());
+        editor.putString(KEY_TELP, user.getTelp());
         editor.apply();
+    }
+
+    public User getLatLong(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return new User(
+                sharedPreferences.getString(KEY_NIK, null),
+                sharedPreferences.getString(KEY_LAT, null),
+                sharedPreferences.getString(KEY_LONG, null),
+                sharedPreferences.getString(KEY_ZOOM, null)
+        );
     }
 
 
@@ -70,4 +91,45 @@ public class SharedPrefManager {
         editor.apply();
         mCtx.startActivity(new Intent(mCtx, LoginActivity.class));
     }
+
+
+    public void setProfile(User user){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_NIK, user.getNik());
+        editor.putString(KEY_NAMA, user.getNama());
+        editor.putString(KEY_ALAMAT, user.getAlamat());
+        editor.putString(KEY_TELP, user.getTelp());
+        editor.apply();
+    }
+
+
+    public User getProfile() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return new User(
+                sharedPreferences.getString(KEY_NIK, null),
+                sharedPreferences.getString(KEY_NAMA, null),
+                sharedPreferences.getString(KEY_DUSUN, null),
+                sharedPreferences.getString(KEY_ALAMAT, null),
+                sharedPreferences.getString(KEY_TL, null),
+                sharedPreferences.getString(KEY_TELP, null)
+        );
+    }
+
+    public void setLangkah(Langkah langkah){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_LANGKAH, langkah.getLangkah());
+        editor.putString(KEY_TANGGAL, langkah.getTanggal());
+        editor.apply();
+    }
+
+    public Langkah getLangkah() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return new Langkah(
+                sharedPreferences.getString(KEY_LANGKAH, null),
+                sharedPreferences.getString(KEY_TANGGAL, null)
+        );
+    }
+
 }

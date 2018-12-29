@@ -1,5 +1,6 @@
 package com.futech.smartbirth;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -28,8 +29,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class PerkembanganFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+
+    public static final String EXTRA_REPLY = "com.futech.smartbirth.datalistsql.REPLY";
+
 
     private List<DataModel> dataModelList;
     private RecyclerView.Adapter adapter;
@@ -50,6 +56,7 @@ public class PerkembanganFragment extends Fragment implements SwipeRefreshLayout
         super.onCreate(savedInstanceState);
 
 
+
         dataModelList = new ArrayList<>();
     }
 
@@ -57,33 +64,21 @@ public class PerkembanganFragment extends Fragment implements SwipeRefreshLayout
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
         View v = inflater.inflate(R.layout.fragment_perkembangan, container, false);
-
-
-
-
-        recyclerView = v.findViewById (R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        adapter = new ListAdapter(dataModelList);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        //new liveview model
+        RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
+        final PerkembanganListAdapter adapter = new PerkembanganListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        recyclerView = v.findViewById (R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        adapter = new ListAdapter(dataModelList);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout = v.findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
-        loadRiwayatData();
+        //loadRiwayatData();
 
         return v;
 
@@ -93,7 +88,7 @@ public class PerkembanganFragment extends Fragment implements SwipeRefreshLayout
 
         swipeRefreshLayout.setRefreshing(true);
         RequestQueue queue = VolleySingleton.getInstance(getActivity().getApplicationContext()).getRequestQueue();
-        String url = "https://www.tokosms.com/api/smartbirth/getlist.php";
+        String url = "https://www.tokosms.com/api/smartbirth/getdata.php";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -116,7 +111,7 @@ public class PerkembanganFragment extends Fragment implements SwipeRefreshLayout
                         String nomor = kontak.getString("berat");
                         //contacts.add(new Contact(nama, nomor));
 
-                        dataModelList.add(new DataModel(nama,nomor));
+                        dataModelList.add(new DataModel(nama,nomor,"1000"));
                         Log.d("Msg",nama + nomor);
 
                     }
@@ -150,9 +145,17 @@ public class PerkembanganFragment extends Fragment implements SwipeRefreshLayout
         queue.add(jsonArrayRequest);
     }
 
+    public void loadData(){
+        Intent replyIntent = new Intent();
+        getActivity().setResult(RESULT_OK, replyIntent);
+        getActivity().finish();
+    }
+
 
     @Override
     public void onRefresh() {
-        loadRiwayatData();
+        //loadRiwayatData();
+        loadData();
+
     }
 }

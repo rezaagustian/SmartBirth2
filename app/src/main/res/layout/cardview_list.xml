@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,10 +18,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:text="12 Nov 2018"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/textViewBerat"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,13 +31,38 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:text="70 kg"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/textViewTanggal"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelLangkah"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Jumlah Langkah"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/textViewLangkah"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTanggal" />
+
+        <TextView
+            android:id="@+id/textViewLangkah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:text="1000"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewBerat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -50,13 +50,6 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login2);
         // Set up the login form.
 
-        //if the user is already logged in we will directly start the profile activity
-        if (SharedPrefManager.getInstance(this).isLoggedIn()) {
-            finish();
-            startActivity(new Intent(this, HomeActivity.class));
-            return;
-        }
-
 
         mPhoneView = (EditText) findViewById(R.id.phone);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -148,7 +141,7 @@ public class LoginActivity extends AppCompatActivity{
 
     private boolean isPhoneValid(String phone) {
         //TODO: Replace this with your own logic
-        return phone.length() > 9;
+        return phone.length() > 0;
     }
 
     private boolean isPasswordValid(String password) {
@@ -276,8 +269,14 @@ public class LoginActivity extends AppCompatActivity{
 
                                 User user = new User(
                                         jsonObject.getString("nik"),
+                                        jsonObject.getString("nama"),
+                                        jsonObject.getString("dusun"),
+                                        jsonObject.getString("alamat"),
+                                        jsonObject.getString("tempat_lahir"),
                                         jsonObject.getString("telp")
+
                                 );
+
 
                                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
 
@@ -307,7 +306,7 @@ public class LoginActivity extends AppCompatActivity{
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("phone", mPhone);
+                params.put("user_id", mPhone);
                 params.put("pass", mPassword);
 
                 return params;

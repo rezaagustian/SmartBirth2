@@ -104,6 +104,7 @@ public class BeritaFragment extends Fragment implements SwipeRefreshLayout.OnRef
                             for (int i=0; i < jsonArray.length(); i++){
                                 JSONObject berita = (JSONObject) jsonArray.get(i);
                                 BeritaDataModel beritaDataModel = new BeritaDataModel(
+                                        berita.getString("id"),
                                         berita.getString("judul_berita"),
                                         berita.getString("isi_berita"),
                                         berita.getString("tanggal_berita"),

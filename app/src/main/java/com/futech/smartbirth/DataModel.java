@@ -5,10 +5,15 @@ public class DataModel {
 
     private String tanggal;
     private String berat;
+    private String langkah;
 
-    public DataModel(String tanggal, String berat){
+
+
+    public DataModel(String tanggal, String berat, String langkah){
         this.tanggal = tanggal;
         this.berat = berat;
+        this.langkah = langkah;
+
     }
 
 
@@ -18,6 +23,10 @@ public class DataModel {
 
     public String getBerat() {
         return berat;
+    }
+
+    public String getLangkah() {
+        return langkah;
     }
 
 }

@@ -57,16 +57,17 @@ public class StatistikFragment extends Fragment implements SwipeRefreshLayout.On
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_statistik, container, false);
 
-        graph = (GraphView) v.findViewById(R.id.graph);
-
-
+        //graph = (GraphView) v.findViewById(R.id.graph);
         dataModelList = new ArrayList<>();
         recyclerView = v.findViewById (R.id.recycler_view);
 
         linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         adapter = new ListAdapter(dataModelList);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
 
         swipeRefreshLayout = v.findViewById(R.id.swipe_container);
 
@@ -78,7 +79,14 @@ public class StatistikFragment extends Fragment implements SwipeRefreshLayout.On
                 //loadData();
                 loadGraph();
             }
-        });;
+        });
+
+
+        //DataModel dataModel = new DataModel("tanggal","20");
+        //dataModelList.add(dataModel);
+
+        //adapter.notifyDataSetChanged();
+
 
         return v;
     }
@@ -162,7 +170,7 @@ public class StatistikFragment extends Fragment implements SwipeRefreshLayout.On
                                 x++;
                             }
 
-                            graph.addSeries(series);
+                            //graph.addSeries(series);
 
                             if(dataModelList.size()!= 0){
                                 dataModelList.clear();
@@ -172,7 +180,9 @@ public class StatistikFragment extends Fragment implements SwipeRefreshLayout.On
                                 JSONObject data = (JSONObject) jsonArray.get(i);
                                 DataModel dataModel = new DataModel(
                                         data.getString("tanggal"),
-                                        data.getString("berat")
+                                        data.getString("berat"),
+                                        data.getString("langkah")
+
                                 );
 
                                 dataModelList.add(dataModel);
@@ -199,7 +209,7 @@ public class StatistikFragment extends Fragment implements SwipeRefreshLayout.On
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("phone", "08123456789");
+                params.put("id_ibu", "1");
 
                 return params;
             }
@@ -211,9 +221,9 @@ public class StatistikFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
 
-
     @Override
     public void onRefresh() {
         loadGraph();
     }
+
 }

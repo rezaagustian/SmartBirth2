@@ -93,8 +93,9 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                                     String tanggal = jsonObject.getString("tanggal");
                                     String berat = jsonObject.getString("berat");
+                                    String langkah = jsonObject.getString("langkah");
 
-                                    dataModelList.add(new DataModel(tanggal,berat));
+                                    dataModelList.add(new DataModel(tanggal,berat, langkah));
 
                                 } catch (JSONException e) {
 

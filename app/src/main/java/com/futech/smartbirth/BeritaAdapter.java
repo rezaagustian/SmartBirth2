@@ -1,6 +1,10 @@
 package com.futech.smartbirth;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,19 +50,34 @@ public class BeritaAdapter extends RecyclerView.Adapter<BeritaAdapter.BeritaView
     }
 
 
-    public static class BeritaViewHolder extends RecyclerView.ViewHolder {
+    public class BeritaViewHolder extends RecyclerView.ViewHolder {
         TextView judulBerita;
         TextView deskripsiBerita;
         TextView tanggalBerita;
         TextView tanggalBerita2;
+        CardView cardViewBerita;
+        Context context;
 
         BeritaViewHolder(View itemView) {
             super(itemView);
+            cardViewBerita = itemView.findViewById(R.id.card_view_berita);
             judulBerita = itemView.findViewById(R.id.textViewJudul);
             deskripsiBerita = itemView.findViewById(R.id.textViewDeskripsi);
             tanggalBerita = itemView.findViewById(R.id.textViewTanggal);
             tanggalBerita2 = itemView.findViewById(R.id.textViewTanggal2);
+            context = itemView.getContext();
 
+
+            cardViewBerita.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, DetailBeritaActivity.class);
+                    i.putExtra("id", beritaDataModelList.get(getAdapterPosition()).getId());
+                    i.putExtra("judul", beritaDataModelList.get(getAdapterPosition()).getJudulBerita());
+                    i.putExtra("isi", beritaDataModelList.get(getAdapterPosition()).getDeskripsiBerita());
+                    context.startActivity(i);
+                }
+            });
         }
     }
 

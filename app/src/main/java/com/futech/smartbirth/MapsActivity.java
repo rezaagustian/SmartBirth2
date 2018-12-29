@@ -35,10 +35,10 @@ import java.util.Map;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private String nik;
     double v, v1;
     MarkerOptions markerOptions;
     View view;
-    private Button saveButton;
     //TextView alamat;
 
     @Override
@@ -47,12 +47,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        saveButton = findViewById(R.id.buttonSave);
+        Button saveButton = findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,11 +80,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        User user = SharedPrefManager.getInstance(getApplicationContext()).getLatLong();
+        nik = user.getNik();
+
         getLatLong();
         mMap = googleMap;
 
-        //LatLng yogya = new LatLng(v, v1);
-        mMap.setMinZoomPreference(15.0f);
+        //User user = SharedPrefManager.getInstance(getApplicationContext()).getLatLong();
+        //v = Double.valueOf(user.getLatitude());
+        //v1 = Double.valueOf(user.getLongitude());
+        //LatLng lokasiAwal = new LatLng(v, v1);
+
+        mMap.setMinZoomPreference(15);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(yogya));
@@ -158,11 +167,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             double l1 = Double.valueOf(jsonObject.getString("lat"));
                             double l2 = Double.valueOf(jsonObject.getString("long"));
+                            float z = Float.valueOf(jsonObject.getString("zoom"));
 
                             //SharedPrefManager.getInstance(getApplicationContext()).setLatLong(l1, l2);
 
                             LatLng mLocation = new LatLng(l1, l2);
-                            mMap.setMinZoomPreference(15.0f);
+                            mMap.setMinZoomPreference(z);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(mLocation));
 
 
@@ -183,7 +193,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("login","reza");
+                params.put("user_id",nik);
 
                 return params;
             }
@@ -201,6 +211,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         final String l1 = String.valueOf(mMap.getCameraPosition().target.latitude);
         final String l2 = String.valueOf(mMap.getCameraPosition().target.longitude);
+        final String z = String.valueOf(mMap.getCameraPosition().zoom);
 
         String url = "https://www.tokosms.com/api/smartbirth/setLatLong.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -226,7 +237,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Map<String, String> params = new HashMap<>();
                 params.put("lat",l1);
                 params.put("long",l2);
-                params.put("login","reza");
+                params.put("zoom",z);
+                params.put("user_id",nik);
 
                 return params;
             }
